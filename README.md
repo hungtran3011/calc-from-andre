@@ -1,5 +1,6 @@
 # calc-from-andre
 A (simple) customizable calculator
+Demo image of the calculator
 
 ![image](https://user-images.githubusercontent.com/68326978/192106181-acc6c22f-5002-476c-9f53-a40119ba33f3.png)
 
