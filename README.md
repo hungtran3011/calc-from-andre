@@ -4,7 +4,7 @@ Demo image of the calculator:
 
 ![image](https://user-images.githubusercontent.com/68326978/192106181-acc6c22f-5002-476c-9f53-a40119ba33f3.png)
 
-
+Created with Python 3.10 with Qt6 (PySide6)
 ## What I have done:
 - Simple math operations (+, -, *(times), /(divide)
 - Use an ANS variable to store the results of calculations
