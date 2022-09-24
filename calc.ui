@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>290</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>290</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>290</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Calculator</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #D8E9A8</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPlainTextEdit" name="calc_area">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 10px;
+background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="plainText">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	border: 0;
+	background: white;
+	padding: 10px;
+	border-radius: 10px;
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="2">
+        <widget class="QPushButton" name="num_9">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>9</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QPushButton" name="btn_divide">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #4E9F3D;
+}
+
+QPushButton:hover{
+	background-color: #3e7c30;
+}</string>
+         </property>
+         <property name="text">
+          <string>/</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="btn_eq">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #1E5128;
+	color: white;
+}
+
+QPushButton:hover{
+	background-color: #191A19;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>=</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QPushButton" name="num_3">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="btn_minus">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #4E9F3D;
+}
+
+QPushButton:hover{
+	background-color: #3e7c30;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>-</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="num_2">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="num_8">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>8</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="btn_plus">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #4E9F3D;
+}
+
+QPushButton:hover{
+	background-color: #3e7c30;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>+</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="btn_ac">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #1E5128;
+	color: white;
+}
+
+QPushButton:hover{
+	background-color: #191A19;
+}</string>
+         </property>
+         <property name="text">
+          <string>AC</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="btn_times">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #4E9F3D;
+}
+
+QPushButton:hover{
+	background-color: #3e7c30;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>*</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QPushButton" name="btn_right">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #4E9F3D;
+}
+
+QPushButton:hover{
+	background-color: #3e7c30;
+}
+
+</string>
+         </property>
+         <property name="text">
+          <string>)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="num_7">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>7</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="num_0">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QPushButton" name="btn_left">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #4E9F3D;
+}
+
+QPushButton:hover{
+	background-color: #3e7c30;
+}</string>
+         </property>
+         <property name="text">
+          <string>(</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="num_1">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="num_6">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>6</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="num_5">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="num_4">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="num_dot">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+	background: #dddddd;
+}</string>
+         </property>
+         <property name="text">
+          <string>.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btn_del">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background-color: #1E5128;
+	color: white;
+}
+
+QPushButton:hover{
+	background-color: #191A19;
+}</string>
+         </property>
+         <property name="text">
+          <string>DEL</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>290</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenu{
+	border-radius: 2px;
+	padding: 5px;
+	background: #D8E9A8;
+}
+
+QMenu::item:selected{
+	background: rgb(160, 172, 124);
+	color: white;
+}</string>
+   </property>
+   <widget class="QMenu" name="menu_settings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QMenu" name="menu_mode">
+     <property name="title">
+      <string>Mode</string>
+     </property>
+     <addaction name="action_basic"/>
+     <addaction name="action_scientific"/>
+    </widget>
+    <addaction name="menu_mode"/>
+    <addaction name="action_change_theme"/>
+    <addaction name="separator"/>
+    <addaction name="action_other_settings"/>
+   </widget>
+   <widget class="QMenu" name="menu_variables">
+    <property name="title">
+     <string>Variables</string>
+    </property>
+    <widget class="QMenu" name="menu_save_to">
+     <property name="title">
+      <string>Save to</string>
+     </property>
+     <addaction name="action_sto_A"/>
+     <addaction name="action_sto_B"/>
+     <addaction name="action_sto_C"/>
+     <addaction name="action_sto_D"/>
+     <addaction name="action_sto_E"/>
+     <addaction name="action_sto_F"/>
+     <addaction name="action_sto_M"/>
+     <addaction name="action_sto_X"/>
+     <addaction name="action_sto_Y"/>
+     <addaction name="action_sto_Z"/>
+    </widget>
+    <widget class="QMenu" name="menu_use">
+     <property name="title">
+      <string>Use</string>
+     </property>
+     <addaction name="action_rcl_A"/>
+     <addaction name="action_rcl_B"/>
+     <addaction name="action_rcl_C"/>
+     <addaction name="action_rcl_D"/>
+     <addaction name="action_rcl_E"/>
+     <addaction name="action_rcl_F"/>
+     <addaction name="action_rcl_M"/>
+     <addaction name="action_rcl_X"/>
+     <addaction name="action_rcl_Y"/>
+     <addaction name="action_rcl_Z"/>
+    </widget>
+    <addaction name="action_ANS"/>
+    <addaction name="menu_save_to"/>
+    <addaction name="menu_use"/>
+   </widget>
+   <addaction name="menu_settings"/>
+   <addaction name="menu_variables"/>
+  </widget>
+  <action name="action_change_theme">
+   <property name="text">
+    <string>Change theme...</string>
+   </property>
+  </action>
+  <action name="action_ANS">
+   <property name="text">
+    <string>ANS</string>
+   </property>
+  </action>
+  <action name="action_sto_A">
+   <property name="text">
+    <string>A</string>
+   </property>
+  </action>
+  <action name="action_sto_B">
+   <property name="text">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="action_sto_C">
+   <property name="text">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="action_sto_D">
+   <property name="text">
+    <string>D</string>
+   </property>
+  </action>
+  <action name="action_sto_E">
+   <property name="text">
+    <string>E</string>
+   </property>
+  </action>
+  <action name="action_sto_F">
+   <property name="text">
+    <string>F</string>
+   </property>
+  </action>
+  <action name="action_sto_M">
+   <property name="text">
+    <string>M</string>
+   </property>
+  </action>
+  <action name="action_sto_X">
+   <property name="text">
+    <string>X</string>
+   </property>
+  </action>
+  <action name="action_sto_Y">
+   <property name="text">
+    <string>Y</string>
+   </property>
+  </action>
+  <action name="action_sto_Z">
+   <property name="text">
+    <string>Z</string>
+   </property>
+  </action>
+  <action name="action_rcl_A">
+   <property name="text">
+    <string>A</string>
+   </property>
+  </action>
+  <action name="action_rcl_B">
+   <property name="text">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="action_rcl_C">
+   <property name="text">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="action_rcl_D">
+   <property name="text">
+    <string>D</string>
+   </property>
+  </action>
+  <action name="action_rcl_E">
+   <property name="text">
+    <string>E</string>
+   </property>
+  </action>
+  <action name="action_rcl_F">
+   <property name="text">
+    <string>F</string>
+   </property>
+  </action>
+  <action name="action_rcl_M">
+   <property name="text">
+    <string>M</string>
+   </property>
+  </action>
+  <action name="action_rcl_X">
+   <property name="text">
+    <string>X</string>
+   </property>
+  </action>
+  <action name="action_rcl_Y">
+   <property name="text">
+    <string>Y</string>
+   </property>
+  </action>
+  <action name="action_rcl_Z">
+   <property name="text">
+    <string>Z</string>
+   </property>
+  </action>
+  <action name="action_other_settings">
+   <property name="text">
+    <string>Other settings</string>
+   </property>
+  </action>
+  <action name="action_basic">
+   <property name="text">
+    <string>Basic</string>
+   </property>
+  </action>
+  <action name="action_scientific">
+   <property name="text">
+    <string>Scientific (Coming soon)</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
