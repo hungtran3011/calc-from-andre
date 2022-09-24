@@ -1,16 +1,33 @@
 # calc-from-andre
-A (simple) customizable calculator <br>
+
+A (simple) customizable calculator
+
 Demo image of the calculator:
 
 ![image](https://user-images.githubusercontent.com/68326978/192106181-acc6c22f-5002-476c-9f53-a40119ba33f3.png)
+ <br>
+**Language specs:**
+- <a href="https://www.python.org/downloads/"> Python 3.10 </a>
+- <a href="https://pypi.org/project/PySide6/"> PySide6 - Qt6 bindings for Python </a>
 
-Created with Python 3.10 with Qt6 (PySide6)
+**System requirements**
+
+According to <a href="https://doc.qt.io/qt-6/supported-platforms.html">Qt6 system requirements</a> :
+
+- Windows (64 bit): Windows 10 or higher
+- GNU/Linux (X11) (64 bit): Ubuntu 20.04 or higher, CentOS 8.4 or higher, etc.
+- MacOS (64 bit): MacOS 10.14 (Mojave) or higher
+
+This software is NOT tested on ARM chips yet so please help me optimize the software to these chipsets.
+
 ## What I have done:
-- Simple math operations (+, -, *(times), /(divide)
+
+- Simple math operations (+, -, * (times), / (divide))
 - Use an ANS variable to store the results of calculations
 - Use several other variables for more complex calculations
 
 ## What I need to complete
+
 - Add 'Settings' and 'Mode' dialog
 - Re-implement the algorithm used for calculations
 - Symbols: use ÷ instead of / for division, × instead of * for times
@@ -18,10 +35,12 @@ Created with Python 3.10 with Qt6 (PySide6)
 - Add percentage calculation
 
 ## Optional features to add:
+
 - Scientific mode:
   - Trigonometric and inverse trigonometric functions, with degrees and radians are supported, and re
   - Powers and logarithms, with e constant supported
   - Factorials, combinations and permutations calculator
   - Greatest common factors (GCF/GCD) and least common multiple (LCM) of 2 and more positive integers
 - Conversion mode: the conversion between the units of distance, mass or volume, etc.
+
 And more features if I have free time to add 😊
