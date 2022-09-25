@@ -8,8 +8,9 @@ A (simple) customizable calculator
 
 Demo image of the calculator:
 
-![image](https://user-images.githubusercontent.com/68326978/192106181-acc6c22f-5002-476c-9f53-a40119ba33f3.png)
- <br>
+![image](https://user-images.githubusercontent.com/68326978/192151718-aa670b9a-244b-4d74-a4a1-9e7a6893c04a.png)
+ 
+ 
 **Language specs:**
 - <a href="https://www.python.org/downloads/"> Python 3.10 </a>
 - <a href="https://pypi.org/project/PySide6/"> PySide6 - Qt6 bindings for Python </a>
