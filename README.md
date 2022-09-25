@@ -18,7 +18,7 @@ Scientific calculator
 
 This project is/was created at the end of my summer vacation, before my first year at uni 😁.
 
-Learning Python for about 3 years, I decided to create a decent project so that I could practice what I had learnt and share my work to the community
+Having learnt Python for a year, I decided to create a decent project so that I could practice what I had learnt and share my work to the community
  
  
 **Language and framework specs:**
