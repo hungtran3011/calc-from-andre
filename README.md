@@ -1,19 +1,29 @@
-# calc-from-andre
+# calc-from-andre - The calculator project created by a newbie
 ![calculator (1)](https://user-images.githubusercontent.com/68326978/192151674-d66b5ee4-7d74-4163-b02f-b0dcdd05e93e.png)
 
 
 Logo: <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Pixel perfect - Flaticon</a>
 
-A (simple) customizable calculator
-
 Demo image of the calculator:
 
 ![image](https://user-images.githubusercontent.com/68326978/192151718-aa670b9a-244b-4d74-a4a1-9e7a6893c04a.png)
+
+Basic calculator
+
+![image](https://user-images.githubusercontent.com/68326978/192152014-15f9f5d2-5fd0-41a2-a992-e41e4ec593ab.png)
+
+Scientific calculator
+
+**About this project**
+
+This project is/was created at the end of my summer vacation, before my first year at uni 😁.
+
+Learning Python for about 3 years, I decided to create a decent project so that I could practice what I had learnt and share my work to the community
  
  
-**Language specs:**
+**Language and framework specs:**
 - <a href="https://www.python.org/downloads/"> Python 3.10 </a>
-- <a href="https://pypi.org/project/PySide6/"> PySide6 - Qt6 bindings for Python </a>
+- <a href="https://pypi.org/project/PySide6/"> PySide6 - Official Qt6 bindings for Python from the Qt for Python project </a>
 
 **System requirements**
 
@@ -28,19 +38,24 @@ This software is NOT tested on ARM chips yet so please help me optimize the soft
 ## What I have done:
 
 - Simple math operations (+, -, * (times), / (divide))
-- Use an '''ANS''' variable to store the results of calculations
+- Use an ```ANS``` variable to store the results of calculations
 - Use several other variables for more complex calculations
-- **UPDATE 25/09/2022**: Complete the UI part for '''scientific''' mode
+- **UPDATE 25/09/2022**: Complete the UI part for ```scientific``` mode
 
 ## What I need to complete
 
-- Add 'Settings' and 'Mode' dialog
+- Add ```Settings``` and ```Mode``` dialog
 - Re-implement the algorithm used for calculations
-- Symbols: use ÷ instead of / for division, × instead of * for times
+- Symbols: use ```÷``` instead of ```/``` for division, ```×``` instead of ```*``` for times
 - Add square roots and n-roots of numbers
 - Add percentage calculation
-- **UPDATE 25/09/2022**: Complete '''scientific''' mode, complete for the '''unit converter''' and '''currency converter''' mode
+- **UPDATE 25/09/2022**: Complete ```scientific``` mode, complete for the ```unit converter``` and ```currency converter``` mode
 
-Details can be seen at '''changelog.md'''
+Details can be seen at ```changelog.md```
+
+## What I want to add to the calculator
+- Polynomial and Simultaneous Equations calculator
+- Ratio calculator
+- Complex calculator
 
 And more features and updates if I have free time to add 😊
