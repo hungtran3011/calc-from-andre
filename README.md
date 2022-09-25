@@ -14,7 +14,7 @@ Basic calculator
 
 Scientific calculator
 
-**About this project**
+## About this project
 
 This project is/was created at the end of my summer vacation, before my first year at uni 😁.
 
