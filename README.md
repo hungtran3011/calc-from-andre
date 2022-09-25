@@ -1,5 +1,7 @@
 # calc-from-andre
 
+Logo: <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Pixel perfect - Flaticon</a>
+
 A (simple) customizable calculator
 
 Demo image of the calculator:
@@ -23,8 +25,9 @@ This software is NOT tested on ARM chips yet so please help me optimize the soft
 ## What I have done:
 
 - Simple math operations (+, -, * (times), / (divide))
-- Use an ANS variable to store the results of calculations
+- Use an '''ANS''' variable to store the results of calculations
 - Use several other variables for more complex calculations
+- **UPDATE 25/09/2022**: Complete the UI part for '''scientific''' mode
 
 ## What I need to complete
 
@@ -33,14 +36,8 @@ This software is NOT tested on ARM chips yet so please help me optimize the soft
 - Symbols: use ÷ instead of / for division, × instead of * for times
 - Add square roots and n-roots of numbers
 - Add percentage calculation
+- **UPDATE 25/09/2022**: Complete '''scientific''' mode, complete for the '''unit converter''' and '''currency converter''' mode
 
-## Optional features to add:
+Details can be seen at '''changelog.md'''
 
-- Scientific mode:
-  - Trigonometric and inverse trigonometric functions, with degrees and radians are supported, and re
-  - Powers and logarithms, with e constant supported
-  - Factorials, combinations and permutations calculator
-  - Greatest common factors (GCF/GCD) and least common multiple (LCM) of 2 and more positive integers
-- Conversion mode: the conversion between the units of distance, mass or volume, etc.
-
-And more features if I have free time to add 😊
+And more features and updates if I have free time to add 😊
