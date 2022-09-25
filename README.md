@@ -1,4 +1,6 @@
 # calc-from-andre
+![calculator (1)](https://user-images.githubusercontent.com/68326978/192151674-d66b5ee4-7d74-4163-b02f-b0dcdd05e93e.png)
+
 
 Logo: <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Pixel perfect - Flaticon</a>
 
