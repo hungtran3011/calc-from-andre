@@ -5,10 +5,13 @@ compiled with pyuic
 
 from ast import Num
 import json
+from lib2to3.pytree import convert
+from logging import PlaceHolder
 from turtle import title
 
 from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton, QSizePolicy, \
-QVBoxLayout, QWidget, QMainWindow, QMenu, QMenuBar, QPlainTextEdit, QGraphicsDropShadowEffect, QMessageBox, QStackedWidget, QGroupBox, QHBoxLayout, QRadioButton, QLabel, QSpacerItem
+QVBoxLayout, QWidget, QMainWindow, QMenu, QMenuBar, QPlainTextEdit, QGraphicsDropShadowEffect, QMessageBox, QStackedWidget, QGroupBox,\
+QHBoxLayout, QRadioButton, QLabel, QSpacerItem, QComboBox
 from PySide6.QtGui import QAction, QCursor, QFont, QPixmap
 from PySide6.QtCore import QSize, Qt, QRect
 
@@ -34,7 +37,7 @@ FUNC_BUTTON_FG_NORMAL = THEME["func-button-fg-normal"]
 FUNC_BUTTON_BG_HOVER = THEME["func-button-bg-hover"]
 FUNC_BUTTON_FG_HOVER = THEME["func-button-fg-hover"]
 CALC_AREA_BG = THEME["calc-area-bg"]
-MENU_FONT_SIZE = THEME["menu-font-size"]
+SMALL_FONT_SIZE = THEME["small-font-size"]
 GENERAL_FONT_SIZE = THEME["general-font-size"]
 MENU_BG_NORMAL = THEME["menu-bg-normal"]
 MENU_FG_NORMAL = THEME["menu-fg-normal"]
@@ -89,6 +92,7 @@ class NumButton(CustomPushButton):
             }}
         """)
 
+
 class OperButton(CustomPushButton):
     def __init__(self, parent, oper: str):
         super().__init__(parent)
@@ -113,9 +117,9 @@ class OperButton(CustomPushButton):
 
 
 class ProcButton(CustomPushButton):
-    def __init__(self, parent, oper: str):
+    def __init__(self, parent, txt: str):
         super().__init__(parent)
-        self.setText(oper)
+        self.setText(txt)
         self.format_style()
     
     def format_style(self):
@@ -162,20 +166,20 @@ class FuncButton(CustomPushButton):
 class MenuBar(QMenuBar):
     def __init__(self, MainWindow: QMainWindow):
         super().__init__(MainWindow)
-        font = QFont()
-        font.setPointSize(MENU_FONT_SIZE)
-        self.setFont(font)
+        small_font = QFont()
+        small_font.setPointSize(SMALL_FONT_SIZE)
+        self.setFont(small_font)
         self.setGeometry(QRect(0, 0, 290, 22))
         self.setCursor(QCursor(Qt.ArrowCursor))
 
         self.menu_settings = QMenu("Settings", self)
-        self.menu_settings.setFont(font)
+        self.menu_settings.setFont(small_font)
         self.menu_mode = QMenu("Mode", self.menu_settings)
         self.action_change_theme = QAction("Change theme...", MainWindow)
         self.action_basic = QAction("Basic mode", MainWindow)
         self.action_scientific = QAction("Scientific mode (UI test)", MainWindow)
-        self.action_conversion = QAction("Unit converter mode (Coming soon)")
-        self.action_currency = QAction("Currency converter mode (Coming soon)")
+        self.action_conversion = QAction("Unit converter (Coming soon)")
+        self.action_currency = QAction("Currency converter (Coming soon)")
         self.action_other_settings = QAction("Other settings", MainWindow)
         self.addAction(self.menu_settings.menuAction())
         self.menu_settings.addAction(self.menu_mode.menuAction())
@@ -184,14 +188,16 @@ class MenuBar(QMenuBar):
         self.menu_settings.addAction(self.action_other_settings)
         self.menu_mode.addAction(self.action_basic)
         self.menu_mode.addAction(self.action_scientific)
-        self.menu_mode.setFont(font)
+        self.menu_mode.addAction(self.action_conversion)
+        self.menu_mode.addAction(self.action_currency)
+        self.menu_mode.setFont(small_font)
 
         self.menu_variables = QMenu("Variables", self)
-        self.menu_variables.setFont(font)
+        self.menu_variables.setFont(small_font)
         self.menu_save_to = QMenu("Save to", self.menu_variables)
-        self.menu_save_to.setFont(font)
+        self.menu_save_to.setFont(small_font)
         self.menu_use = QMenu("Use", self.menu_variables)
-        self.menu_use.setFont(font)
+        self.menu_use.setFont(small_font)
         self.action_ANS = QAction("ANS", MainWindow)
         self.action_sto_A = QAction("A", MainWindow)
         self.action_sto_B = QAction("B", MainWindow)
@@ -269,9 +275,9 @@ class CustomMessageBox(QMessageBox):
         self.format_message()
         self._message_text = ""
         self._message_informative_text = ""
-        font = QFont()
-        font.setPointSize(int(GENERAL_FONT_SIZE))
-        self.setFont(font)
+        general_font = QFont()
+        general_font.setPointSize(int(GENERAL_FONT_SIZE))
+        self.setFont(general_font)
 
     @property
     def message_text(self):
@@ -334,37 +340,42 @@ class ResetPopup(CustomMessageBox):
 
 
 
-class CustomCalcArea(QPlainTextEdit):
+class CustomTextArea(QPlainTextEdit):
     def __init__(self, parent):
         super().__init__(parent)
-        font = QFont()
-        font.setPointSize(
+        general_font = QFont()
+        general_font.setPointSize(
             int(GENERAL_FONT_SIZE)
         )
-        self.setFont(font)
-        self.setPlaceholderText("Click the buttons to use your calculator")
+        self.setFont(general_font)
+        self.placeholder = ""
+        self.setPlaceholderText(self.placeholder)
         self.setReadOnly(True)
         self.setStyleSheet(f"""
             border-radius: 10px;
             background-color: {CALC_AREA_BG};
-            font-size: {GENERAL_FONT_SIZE};
         """)
         shadow = QGraphicsDropShadowEffect(parent, blurRadius=10, xOffset=0, yOffset=0)
         self.setGraphicsEffect(shadow)
+    
+    def set_placeholder_txt(self, txt):
+        self.placeholder = txt
+        self.setPlaceholderText(self.placeholder)
 
 
 class BasicCalcUI(object):
     def setupUi(self, parent: QWidget):
         self.verticalLayout = QVBoxLayout(parent)
 
-        self.calc_area = CustomCalcArea(parent)
+        self.calc_area = CustomTextArea(parent)
+        self.calc_area.set_placeholder_txt("Click the buttons to use your calculator")
         self.calc_area.setMaximumSize(QSize(16777215, 100))
         self.verticalLayout.addWidget(self.calc_area)
         
-        font = QFont()
-        font.size = 16
+        general_font = QFont()
+        general_font.size = GENERAL_FONT_SIZE
         self.frame = QFrame(parent)
-        self.frame.setFont(font)
+        self.frame.setFont(general_font)
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.gridLayout = QGridLayout(self.frame)
@@ -419,6 +430,9 @@ class ScientificCalcUI(object):
     def setupUi(self, parent: QWidget, MainWindow: QMainWindow):
         # super().setupUi(parent, MainWindow)
 
+        general_font = QFont()
+        general_font.size = GENERAL_FONT_SIZE
+
         self.verticalLayout = QVBoxLayout(parent)
 
         self.angle_unit = QGroupBox(parent)
@@ -430,15 +444,14 @@ class ScientificCalcUI(object):
         gr_box_horizontal.addWidget(self.radian_radio)
         self.verticalLayout.addWidget(self.angle_unit)
 
-        self.calc_area = CustomCalcArea(parent)
+        self.calc_area = CustomTextArea(parent)
+        self.calc_area.set_placeholder_txt("Click the buttons to use your calculator")
         self.calc_area.setMaximumSize(QSize(16777215, 100))
         self.calc_area.setMinimumHeight(100)
         self.verticalLayout.addWidget(self.calc_area)
         
-        font = QFont()
-        font.size = 16
         self.frame = QFrame(parent)
-        self.frame.setFont(font)
+        self.frame.setFont(general_font)
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.gridLayout = QGridLayout(self.frame)
@@ -540,6 +553,169 @@ class ScientificCalcUI(object):
 
         self.verticalLayout.addWidget(self.frame)
 
+
+class UnitConverterUI(object):
+    def setupUi(self, parent: QWidget, MainWindow:QMainWindow):
+        
+        MainWindow.setStyleSheet(f"background-color: {WINDOW_BG}")
+
+        small_font = QFont()
+        small_font.setPointSize(SMALL_FONT_SIZE)
+
+        general_font = QFont()
+        general_font.setPointSize(GENERAL_FONT_SIZE)
+
+        self.widget_layout = QGridLayout(parent)
+
+        self.unit_types_combobox = self.CustomComboBox(parent)
+        self.widget_layout.addWidget(self.unit_types_combobox, 0, 0, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.widget_layout.addItem(self.horizontalSpacer, 1, 1, 1, 1)
+
+        self.btn_convert = ProcButton(parent, "Convert")
+        self.btn_convert.setFont(small_font)
+        self.widget_layout.addWidget(self.btn_convert, 2, 2, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.widget_layout.addItem(self.horizontalSpacer_2, 1, 3, 1, 1)
+
+        self.first_unit_combobox = self.CustomComboBox(parent)
+        self.first_unit_combobox.setFont(small_font)
+        self.first_unit_combobox.setPlaceholderText("")
+        self.widget_layout.addWidget(self.first_unit_combobox, 1, 0, 1, 1)
+
+        self.btn_switch = ProcButton(parent, "⇄")
+        self.btn_switch.setFont(small_font)
+        self.widget_layout.addWidget(self.btn_switch, 1, 2, 1, 1)
+
+        self.second_unit_combobox = self.CustomComboBox(parent)
+        self.second_unit_combobox.setFont(small_font)
+        self.widget_layout.addWidget(self.second_unit_combobox, 1, 4, 1, 1)
+
+        self.first_unit_box = CustomTextArea(parent)
+        box_size_policy = QSizePolicy()
+        box_size_policy.setHeightForWidth(self.first_unit_box.sizePolicy().hasHeightForWidth())
+        self.first_unit_box.setSizePolicy(box_size_policy)
+        self.first_unit_box.setMaximumSize(QSize(16777215, 100))
+        self.first_unit_box.setFont(general_font)
+        self.first_unit_box.setReadOnly(True)
+        self.first_unit_box.set_placeholder_txt("Input the value here...")
+        self.widget_layout.addWidget(self.first_unit_box, 2, 0, 1, 1)
+
+        self.second_unit_box = CustomTextArea(parent)
+        box_size_policy = QSizePolicy()
+        box_size_policy.setHeightForWidth(self.second_unit_box.sizePolicy().hasHeightForWidth())
+        self.second_unit_box.setSizePolicy(box_size_policy)
+        self.second_unit_box.setMaximumSize(QSize(16777215, 100))
+        self.second_unit_box.setFont(general_font)
+        self.second_unit_box.setReadOnly(True)
+        self.second_unit_box.setDisabled(True)
+        self.widget_layout.addWidget(self.second_unit_box, 2, 4, 1, 1)
+
+        self.btn_convert = ProcButton(parent, "Convert")
+        self.btn_convert.setFont(small_font)
+        self.widget_layout.addWidget(self.btn_convert, 2, 2, 1, 1)
+
+        self.input_frame = QFrame(parent)
+        self.input_frame.setObjectName(u"input_frame")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.input_frame.sizePolicy().hasHeightForWidth())
+        self.input_frame.setSizePolicy(sizePolicy)
+
+        self.input_layout = QGridLayout(self.input_frame)
+
+        self.num_7 = NumButton(self.input_frame, "7")
+        self.num_7.setFont(general_font)
+        self.input_layout.addWidget(self.num_7, 2, 0, 1, 1)
+
+        self.num_8 = NumButton(self.input_frame, "8")
+        self.num_8.setFont(general_font)
+        self.input_layout.addWidget(self.num_8, 2, 1, 1, 1)
+
+        self.num_9 = NumButton(self.input_frame, "9")
+        self.num_9.setFont(general_font)
+        self.input_layout.addWidget(self.num_9, 2, 2, 1, 1)
+        
+        self.num_4 = NumButton(self.input_frame, "4")
+        self.num_4.setFont(general_font)
+        self.input_layout.addWidget(self.num_4, 3, 0, 1, 1)
+
+        self.num_5 = NumButton(self.input_frame, "5")
+        self.num_5.setFont(general_font)
+        self.input_layout.addWidget(self.num_5, 3, 1, 1, 1)
+
+        self.num_6 = NumButton(self.input_frame, "6")
+        self.num_6.setFont(general_font)
+        self.input_layout.addWidget(self.num_6, 3, 2, 1, 1)
+
+        self.num_1 = NumButton(self.input_frame, "1")
+        self.num_1.setFont(general_font)
+        self.input_layout.addWidget(self.num_1, 4, 0, 1, 1)
+
+        self.num_2 = NumButton(self.input_frame, "2")
+        self.num_2.setFont(general_font)
+        self.input_layout.addWidget(self.num_2, 4, 1, 1, 1)
+
+        self.num_3 = NumButton(self.input_frame, "3")
+        self.num_3.setFont(general_font)
+        self.input_layout.addWidget(self.num_3, 4, 2, 1, 1)
+
+        self.num_0 = NumButton(self.input_frame, "0")
+        self.num_0.setFont(general_font)
+        self.input_layout.addWidget(self.num_0, 5, 0, 1, 2)
+
+        self.num_dot = NumButton(self.input_frame, ".")
+        self.num_dot.setFont(general_font)
+        self.input_layout.addWidget(self.num_dot, 5, 2, 1, 1)
+
+        self.btn_del = ProcButton(self.input_frame, "DEL")
+        ac_del_size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Ignored)
+        ac_del_size_policy.setHorizontalStretch(0)
+        ac_del_size_policy.setVerticalStretch(0)
+        ac_del_size_policy.setHeightForWidth(self.btn_del.sizePolicy().hasHeightForWidth())
+        self.btn_del.setSizePolicy(ac_del_size_policy)
+        self.btn_del.setFont(general_font)
+        self.input_layout.addWidget(self.btn_del, 2, 3, 2, 1)
+
+        self.btn_ac = ProcButton(self.input_frame, "AC")
+        ac_del_size_policy.setHeightForWidth(self.btn_ac.sizePolicy().hasHeightForWidth())
+        self.btn_ac.setSizePolicy(ac_del_size_policy)
+        self.btn_ac.setFont(general_font)
+        self.input_layout.addWidget(self.btn_ac, 5, 3, 2, 1)
+
+        self.widget_layout.addWidget(self.input_frame, 3, 0, 1, 1)
+
+
+    class CustomComboBox(QComboBox):
+        def __init__(self, parent: QWidget):
+            super().__init__(parent)
+            self.format_box()
+
+        def format_box(self):
+            self.setStyleSheet(f"""
+                QComboBox {{
+                    border-radius: 10px;
+                    padding: 3px 3px 3px 3px;
+                    background: white;
+                }}
+                QComboBox::drop-down{{
+                	border: 0;
+                	border-radius: 10px;
+                	background: transparent;
+                }}
+                QComboBox QAbstractItemView {{
+                    background: white;
+                	border-bottom-right-radius: 10px;
+                    border-bottom-left-radius: 10px;
+                	selection-background-color: lightgray;
+                }}
+                QComboBox:on{{
+                	border-radius: 10px;
+                }}
+            """)
 
 class CalcUI(object):
     def setupUi(self, MainWindow: QMainWindow):

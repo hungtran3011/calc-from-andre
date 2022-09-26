@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QMainWindow, QApplication, QWidget
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QSize
 # from calc import Ui_MainWindow
-from calc_ui import CalcUI, ResetPopup, BasicCalcUI, ScientificCalcUI
+from calc_ui import CalcUI, ResetPopup, BasicCalcUI, ScientificCalcUI, UnitConverterUI
 # from __feature__ import true_property, snake_case
 
 
@@ -43,7 +43,7 @@ PROC_BUTTON_FG_NORMAL = THEME["proc-button-fg-normal"]
 PROC_BUTTON_BG_HOVER = THEME["proc-button-bg-hover"]
 PROC_BUTTON_FG_HOVER = THEME["proc-button-fg-hover"]
 CALC_AREA_BG = THEME["calc-area-bg"]
-MENU_FONT_SIZE = THEME["menu-font-size"]
+SMALL_FONT_SIZE = THEME["small-font-size"]
 GENERAL_FONT_SIZE = THEME["general-font-size"]
 MENU_BG_NORMAL = THEME["menu-bg-normal"]
 MENU_FG_NORMAL = THEME["menu-fg-normal"]
@@ -89,7 +89,7 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
         self.btn_ac.clicked.connect(self.ac) 
         self.btn_del.clicked.connect(self.del_calc)
 
-    def setBasic(self):
+    def set_basic(self):
         self.MainWindow.setWindowTitle("Basic calculator")
         self.MainWindow.setMinimumSize(QSize(290, 450))
         self.MainWindow.setMaximumSize(QSize(290, 450))
@@ -261,7 +261,7 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
         self.btn_lcm.clicked.connect(partial(self.insert_chars, "lcm("))
         
 
-    def setScientific(self):
+    def set_scientific(self):
         self.MainWindow.setMinimumSize(QSize(586, 567))
         self.MainWindow.setMaximumSize(QSize(586, 567))
         self.MainWindow.resize(QSize(586, 567))
@@ -379,6 +379,23 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
     def ac(self):
         self.calc_area.clear()
 
+
+class UnitConverterWidget(UnitConverterUI, QWidget):
+    def __init__(self, MainWindow: QMainWindow) -> None:
+        super().__init__()
+        self.setupUi(self, MainWindow)
+        self.MainWindow = MainWindow
+    
+    def set_unit_converter(self):
+        self.MainWindow.setWindowTitle("Unit converter")
+        self.MainWindow.resize(718, 444)
+        self.MainWindow.setMinimumSize(718, 444)
+
+
+class CurrencyConverterWidget(QWidget):
+    def __init__(self, MainWindow) -> None:
+        super().__init__()
+
 class CalcMainWindow(QMainWindow, CalcUI):
     # global ANS, A, B, C, D, E, F, M, X, Y, Z
     def __init__(self):
@@ -389,20 +406,27 @@ class CalcMainWindow(QMainWindow, CalcUI):
         self.stacked_widget.addWidget(self.basic_calc)
         self.scientific_calc = ScientificCalcWidget(self)
         self.stacked_widget.addWidget(self.scientific_calc)
-        if int(DEFAULT_MODE) == 0:
-            self.setBasicMode()
-        elif int(DEFAULT_MODE) == 1:
-            self.setScientificMode()
-        self.menubar.action_basic.triggered.connect(self.setBasicMode)
-        self.menubar.action_scientific.triggered.connect(self.setScientificMode)
+        self.unit_converter = UnitConverterWidget(self)
+        self.stacked_widget.addWidget(self.unit_converter)
+        match DEFAULT_MODE:
+            case 0: self.set_basic_mode()
+            case 1: self.set_scientific_mode()
+            case 2: self.set_unit_converter_mode()
+        self.menubar.action_basic.triggered.connect(self.set_basic_mode)
+        self.menubar.action_scientific.triggered.connect(self.set_scientific_mode)
+        self.menubar.action_conversion.triggered.connect(self.set_unit_converter_mode)
 
-    def setBasicMode(self):
-        self.basic_calc.setBasic()
+    def set_basic_mode(self):
+        self.basic_calc.set_basic()
         self.stacked_widget.setCurrentIndex(0)
 
-    def setScientificMode(self):
-        self.scientific_calc.setScientific()
+    def set_scientific_mode(self):
+        self.scientific_calc.set_scientific()
         self.stacked_widget.setCurrentIndex(1)
+
+    def set_unit_converter_mode(self):
+        self.unit_converter.set_unit_converter()
+        self.stacked_widget.setCurrentIndex(2)
 
 
 
