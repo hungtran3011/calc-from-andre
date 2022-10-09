@@ -8,11 +8,15 @@ Demo image of the calculator:
 
 ![image](https://user-images.githubusercontent.com/68326978/192151718-aa670b9a-244b-4d74-a4a1-9e7a6893c04a.png)
 
-Basic calculator
+<em>Basic calculator</em>
 
 ![image](https://user-images.githubusercontent.com/68326978/192152014-15f9f5d2-5fd0-41a2-a992-e41e4ec593ab.png)
 
-Scientific calculator
+<em>Scientific calculator</em>
+
+![image](https://user-images.githubusercontent.com/68326978/194766925-769369ca-ae0b-46a3-810d-ec514c6fbf36.png)
+
+<em>Measurement unit converter</em>
 
 ## About this project
 
