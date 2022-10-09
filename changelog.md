@@ -1,3 +1,6 @@
+**09/10/2022**
+- '''Measurement''' converter is ready for testing!!!
+
 **25/9/2022**
 - Complete the UI part for the '''Scientific''' mode
 - '''Mode''' sub-menu can switch between '''Basic''' and '''Scientific''' mode
