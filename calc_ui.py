@@ -26,7 +26,7 @@ import json
 
 from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton, QSizePolicy, \
 QVBoxLayout, QWidget, QMainWindow, QMenu, QMenuBar, QPlainTextEdit, QGraphicsDropShadowEffect, QMessageBox, QStackedWidget, QGroupBox,\
-QHBoxLayout, QRadioButton, QSpacerItem, QComboBox
+QHBoxLayout, QRadioButton, QSpacerItem, QComboBox, QDialog, QLabel
 from PySide6.QtGui import QAction, QCursor, QFont, QPixmap
 from PySide6.QtCore import QSize, Qt, QRect
 
@@ -53,8 +53,10 @@ FUNC_BUTTON_FG_NORMAL = THEME["func-button-fg-normal"]
 FUNC_BUTTON_BG_HOVER = THEME["func-button-bg-hover"]
 FUNC_BUTTON_FG_HOVER = THEME["func-button-fg-hover"]
 CALC_AREA_BG = THEME["calc-area-bg"]
+FONT_FAMILY = THEME["font-family"]
 SMALL_FONT_SIZE = THEME["small-font-size"]
 GENERAL_FONT_SIZE = THEME["general-font-size"]
+LARGE_FONT_SIZE = THEME["large-font-size"]
 MENU_BG_NORMAL = THEME["menu-bg-normal"]
 MENU_FG_NORMAL = THEME["menu-fg-normal"]
 MENU_BG_HOVER = THEME["menu-bg-hover"]
@@ -79,7 +81,7 @@ class CustomPushButton(QPushButton):
         super().__init__(text, parent)
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
-        font = QFont()
+        font = QFont(FONT_FAMILY)
         font.setPointSize(int(GENERAL_FONT_SIZE))
         self.setFont(font)
         shadow = QGraphicsDropShadowEffect(parent, blurRadius=10, xOffset=0, yOffset=0)
@@ -187,7 +189,8 @@ class FuncButton(CustomPushButton):
 class MenuBar(QMenuBar):
     def __init__(self, MainWindow: QMainWindow):
         super().__init__(MainWindow)
-        small_font = QFont()
+        self.MainWindow = MainWindow
+        small_font = QFont(FONT_FAMILY)
         small_font.setPointSize(SMALL_FONT_SIZE)
         self.setFont(small_font)
         self.setGeometry(QRect(0, 0, 290, 22))
@@ -275,6 +278,7 @@ class MenuBar(QMenuBar):
         self.action_about = QAction("About this software...", MainWindow)
         self.menu_about.addAction(self.action_about)
         self.addMenu(self.menu_about)
+        self.action_about.triggered.connect(self.about)
         self.format_style()
     
     def format_style(self):
@@ -293,6 +297,12 @@ class MenuBar(QMenuBar):
         }}
         """)
 
+    def about(self):
+        message_box = QDialog(self)
+        message_box.setWindowTitle("About this software")
+        ui = AboutDialogUI()
+        ui.setupUi(message_box)
+        message_box.show()
 
 class CustomMessageBox(QMessageBox):
     def __init__(self, parent):
@@ -300,7 +310,7 @@ class CustomMessageBox(QMessageBox):
         self.format_message()
         self._message_text = ""
         self._message_informative_text = ""
-        general_font = QFont()
+        general_font = QFont(FONT_FAMILY)
         general_font.setPointSize(int(GENERAL_FONT_SIZE))
         self.setFont(general_font)
 
@@ -444,7 +454,7 @@ class BasicCalcUI(object):
         general_font.size = GENERAL_FONT_SIZE
         self.frame = QFrame(parent)
         self.frame.setFont(general_font)
-        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShape(QFrame.NoFrame)
         self.frame.setFrameShadow(QFrame.Raised)
         self.gridLayout = QGridLayout(self.frame)
         self.num_0 = NumButton(self.frame, "0")
@@ -498,13 +508,15 @@ class ScientificCalcUI(object):
     def setupUi(self, parent: QWidget, MainWindow: QMainWindow):
         # super().setupUi(parent, MainWindow)
 
-        general_font = QFont()
+        general_font = QFont(FONT_FAMILY)
         general_font.size = GENERAL_FONT_SIZE
 
         self.verticalLayout = QVBoxLayout(parent)
 
         self.angle_unit = QGroupBox(parent)
         self.angle_unit.setTitle("Angle unit:")
+        self.angle_unit.setFont(general_font)
+        self.angle_unit.setFlat(True)
         gr_box_horizontal = QHBoxLayout(self.angle_unit)
         self.degree_radio = QRadioButton("degree (°)", self.angle_unit)
         self.radian_radio = QRadioButton("radian (rad)", self.angle_unit)
@@ -520,7 +532,7 @@ class ScientificCalcUI(object):
         
         self.frame = QFrame(parent)
         self.frame.setFont(general_font)
-        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShape(QFrame.NoFrame)
         self.frame.setFrameShadow(QFrame.Raised)
         self.gridLayout = QGridLayout(self.frame)
         self.num_0 = NumButton(self.frame, "0")
@@ -946,6 +958,86 @@ class MeasurementConverterUI(object):
             ),
         }
 
+
+class AboutDialogUI(QDialog):
+    def setupUi(self, Dialog: QDialog):
+
+        general_font = QFont(FONT_FAMILY)
+        general_font.setPointSize(GENERAL_FONT_SIZE)
+        small_font = QFont(FONT_FAMILY)
+        small_font.setPointSize(SMALL_FONT_SIZE)
+        large_font = QFont(FONT_FAMILY)
+        large_font.setPointSize(LARGE_FONT_SIZE)
+
+        Dialog.setWindowTitle("About this software")
+        horizontal_layout = QHBoxLayout(Dialog)
+
+        left_frame = QFrame(Dialog)
+        left_frame.setFrameShape(QFrame.NoFrame)
+        horizontal_layout.addWidget(left_frame)
+
+        left_vertical_layout = QVBoxLayout(left_frame)
+        logo = QLabel(left_frame)
+        logo_pixmap = QPixmap("icons/logo.png")
+        logo_pixmap.scaledToHeight(64)
+        logo.setScaledContents(True)
+        logo.setPixmap(logo_pixmap)
+        logo.setMaximumSize(64, 64)
+        logo.setAlignment(Qt.AlignCenter)
+        left_vertical_layout.addWidget(logo)
+
+        left_vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        left_vertical_layout.addItem(left_vertical_spacer)
+
+
+        right_frame = QFrame(Dialog)
+        right_frame.setFrameShape(QFrame.NoFrame)
+        horizontal_layout.addWidget(right_frame)
+
+        vertical_layout = QVBoxLayout(right_frame)
+
+        dialog_title = QLabel(Dialog)
+        dialog_title.setText("The calculator")
+        dialog_title.setFont(large_font)
+        dialog_title.setAlignment(Qt.AlignCenter)
+        vertical_layout.addWidget(dialog_title)
+
+        dialog_description = QLabel(Dialog)
+        dialog_description.setText("""
+        This is a calculator that can perform basic (and complex) operations and convert units. \n \n
+        This software is FOSS. The source code is available on GitHub: https://github.com/hungtran3011/calc-from-andre""")
+        
+        dialog_description.setOpenExternalLinks(True)
+        dialog_description.setFont(general_font)
+
+        vertical_layout.addWidget(dialog_description)
+
+        vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        vertical_layout.addItem(vertical_spacer)
+
+        dialog_version = QLabel(Dialog)
+        dialog_version.setText("Version: 0.0.1-a1")
+        dialog_version.setFont(small_font)
+        vertical_layout.addWidget(dialog_version)
+
+        dialog_author = QLabel(Dialog)
+        dialog_author.setText("Copyright (c) 2022 Hung Tran")
+        dialog_author.setFont(small_font)
+        vertical_layout.addWidget(dialog_author)
+
+        dialog_license = QLabel(Dialog)
+        dialog_license.setText("License: GNU General Public License v3.0")
+        dialog_license.setFont(small_font)
+        vertical_layout.addWidget(dialog_license)
+
+        dialog_license_link = QLabel(Dialog)
+        dialog_license_link.setText("""License link: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">here</a>""")
+        dialog_license_link.setOpenExternalLinks(True)
+        dialog_license_link.setFont(small_font)
+        vertical_layout.addWidget(dialog_license_link)
+
+
+        
 
 class CalcUI(object):
     def setupUi(self, MainWindow: QMainWindow):

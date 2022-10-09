@@ -2,11 +2,11 @@ import sys
 from functools import partial
 import json
 
-from PySide6.QtWidgets import QMainWindow, QApplication, QWidget
+from PySide6.QtWidgets import QMainWindow, QApplication, QWidget, QDialog
 from PySide6.QtGui import QPixmap, QKeyEvent
 from PySide6.QtCore import QSize
 # from calc import Ui_MainWindow
-from calc_ui import CalcUI, ResetPopup, BasicCalcUI, ScientificCalcUI, MeasurementConverterUI
+from calc_ui import CalcUI, ResetPopup, BasicCalcUI, ScientificCalcUI, MeasurementConverterUI, AboutDialogUI
 # from __feature__ import true_property, snake_case
 
 
@@ -121,6 +121,7 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
         self.MainWindow.menubar.action_sto_Y.triggered.connect(partial(self.sto_var, "Y"))
         self.MainWindow.menubar.action_sto_Z.triggered.connect(partial(self.sto_var, "Z"))
         self.MainWindow.menubar.action_reset.triggered.connect(self.reset_vars)
+        self.MainWindow.menubar.menu_variables.setEnabled(True)
 
     def to_sto(self):
         print(
@@ -234,6 +235,12 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
         #     A = B = C = D = E = F = M = X = Y = Z = ANS = 0
         #     self.to_sto()
 
+    def about(self):
+        message_box = QDialog(self)
+        ui = AboutDialogUI()
+        ui.setupUi(message_box)
+        message_box.show()
+
 
 class ScientificCalcWidget(ScientificCalcUI, QWidget):
     def __init__(self, MainWindow) -> None:
@@ -309,6 +316,7 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
         self.MainWindow.menubar.action_sto_Y.triggered.connect(partial(self.sto_var, "Y"))
         self.MainWindow.menubar.action_sto_Z.triggered.connect(partial(self.sto_var, "Z"))
         self.MainWindow.menubar.action_reset.triggered.connect(self.reset_vars)
+        self.MainWindow.menubar.menu_variables.setEnabled(True)
 
     def calc(self):
         self.to_sto()
@@ -399,7 +407,6 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
 
     def ac(self):
         self.calc_area.clear()
-
 
 class Converter:
     def __init__(self, input_value, unit_type, input_unit, output_unit) -> None:
