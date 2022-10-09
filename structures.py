@@ -18,4 +18,4 @@ class Stack:
         return self.stack[-1]
     
     def size(self):
-        return len(self.stack)
+        return len(self.stack)    

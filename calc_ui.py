@@ -1,20 +1,36 @@
 """
 The official source code for the ui part, a replacement for the file
 compiled with pyuic
+
+Icons used for the UIs are:
+
+<a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Pixel perfect - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/lab" title="lab icons">Lab icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/area" title="area icons">Area icons created by Mayor Icons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/volume" title="volume icons">Volume icons created by Creaticca Creative Agency - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/weight" title="weight icons">Weight icons created by Good Ware - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/energy" title="energy icons">Energy icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/fever" title="fever icons">Fever icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/car" title="car icons">Car icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/angle" title="angle icons">Angle icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/database" title="database icons">Database icons created by Bartama Graphic - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/fiction" title="fiction icons">Fiction icons created by Buandesign - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/graph" title="graph icons">Graph icons created by Retinaicons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/blood-pressure-gauge" title="blood pressure gauge icons">Blood pressure gauge icons created by PLANBSTUDIO - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/battery-level" title="battery level icons">Battery level icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/clock" title="clock icons">Clock icons created by dmitri13 - Flaticon</a>
 """
 
-from ast import Num
 import json
-from lib2to3.pytree import convert
-from logging import PlaceHolder
-from turtle import title
 
 from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton, QSizePolicy, \
 QVBoxLayout, QWidget, QMainWindow, QMenu, QMenuBar, QPlainTextEdit, QGraphicsDropShadowEffect, QMessageBox, QStackedWidget, QGroupBox,\
-QHBoxLayout, QRadioButton, QLabel, QSpacerItem, QComboBox
+QHBoxLayout, QRadioButton, QSpacerItem, QComboBox
 from PySide6.QtGui import QAction, QCursor, QFont, QPixmap
 from PySide6.QtCore import QSize, Qt, QRect
 
+# from __feature__ import snake_case, true_property
 
 with open("./config/theme.json", "r") as theme_file:
     THEME = json.load(theme_file)
@@ -51,12 +67,17 @@ MESSAGE_OTHER_BUTTONS_BG_NORMAL = THEME["message-other-buttons-bg-normal"]
 MESSAGE_OTHER_BUTTONS_FG_NORMAL = THEME["message-other-buttons-fg-normal"]
 MESSAGE_OTHER_BUTTONS_BG_HOVER = THEME["message-other-buttons-bg-hover"]
 MESSAGE_OTHER_BUTTONS_FG_HOVER = THEME["message-other-buttons-fg-hover"]
+ICONS_COLOR = THEME["icons-color"]
 
+if ICONS_COLOR == "white":
+    ICONS_PATH = "./icons/white/"
+else:
+    ICONS_PATH = "./icons/black/"
 
 class CustomPushButton(QPushButton):
     def __init__(self, parent, text=""):
         super().__init__(text, parent)
-        size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
         font = QFont()
         font.setPointSize(int(GENERAL_FONT_SIZE))
@@ -177,9 +198,13 @@ class MenuBar(QMenuBar):
         self.menu_mode = QMenu("Mode", self.menu_settings)
         self.action_change_theme = QAction("Change theme...", MainWindow)
         self.action_basic = QAction("Basic mode", MainWindow)
+        self.action_basic.setIcon(QPixmap(f"{ICONS_PATH}/basic.png"))
         self.action_scientific = QAction("Scientific mode (UI test)", MainWindow)
-        self.action_conversion = QAction("Unit converter (Coming soon)")
+        self.action_scientific.setIcon(QPixmap(f"{ICONS_PATH}/scientific.png"))
+        self.action_conversion = QAction("Measurement units converter (testing)")
+        self.action_conversion.setIcon(QPixmap(f"{ICONS_PATH}/measurement"))
         self.action_currency = QAction("Currency converter (Coming soon)")
+        self.action_currency.setIcon(QPixmap(f"{ICONS_PATH}/currency.png"))
         self.action_other_settings = QAction("Other settings", MainWindow)
         self.addAction(self.menu_settings.menuAction())
         self.menu_settings.addAction(self.menu_mode.menuAction())
@@ -363,6 +388,49 @@ class CustomTextArea(QPlainTextEdit):
         self.setPlaceholderText(self.placeholder)
 
 
+class CustomComboBox(QComboBox):
+        def __init__(self, parent: QWidget):
+            super().__init__(parent)
+            self.setAttribute(Qt.WA_TranslucentBackground, True)
+            self.format_box()
+
+        def format_box(self):
+            self.setStyleSheet(f"""
+                QComboBox {{
+                    border-radius: 10px;
+                    padding: 3px 3px 3px 3px;
+                    background: white;
+                }}
+                QComboBox::drop-down{{
+                	border: 0;
+                	border-radius: 10px;
+                	background: transparent;
+                }}
+                QComboBox QAbstractItemView {{
+                    background: white;
+                	border-radius: 10px;
+                    border: 1px solid gray;
+                	selection-background-color: lightgray;
+                }}
+
+                QScollBar:vertical {{
+                    border: 0;
+                    width: 6px;
+                    border-radius: 2px;
+                    background: transparent;
+                }}
+                QScrollBar::handle:vertical {{
+                    border: 0;
+                }}
+                QScrollBar::add-line:vertical {{
+                    height: 0px;
+                }}
+                QScrollBar::sub-line:vertical {{
+                    height: 0px;
+                }}
+            """)
+
+
 class BasicCalcUI(object):
     def setupUi(self, parent: QWidget):
         self.verticalLayout = QVBoxLayout(parent)
@@ -510,8 +578,8 @@ class ScientificCalcUI(object):
 
         self.btn_sqrt = OperButton(self.frame, u"√")
         self.gridLayout.addWidget(self.btn_sqrt, 3, 3, 1, 1)
-        self.btn_nroot = OperButton(self.frame, "nroot")
-        self.gridLayout.addWidget(self.btn_nroot, 3, 4, 1, 1)
+        self.btn_pow = OperButton(self.frame, "pow")
+        self.gridLayout.addWidget(self.btn_pow, 3, 4, 1, 1)
         self.btn_factorial = OperButton(self.frame, "!")
         self.gridLayout.addWidget(self.btn_factorial, 4, 3, 1, 1)
         self.btn_percent = OperButton(self.frame, "%")
@@ -554,7 +622,7 @@ class ScientificCalcUI(object):
         self.verticalLayout.addWidget(self.frame)
 
 
-class UnitConverterUI(object):
+class MeasurementConverterUI(object):
     def setupUi(self, parent: QWidget, MainWindow:QMainWindow):
         
         MainWindow.setStyleSheet(f"background-color: {WINDOW_BG}")
@@ -565,9 +633,13 @@ class UnitConverterUI(object):
         general_font = QFont()
         general_font.setPointSize(GENERAL_FONT_SIZE)
 
+        btn_size_policy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+
         self.widget_layout = QGridLayout(parent)
 
-        self.unit_types_combobox = self.CustomComboBox(parent)
+        self.unit_types_combobox = CustomComboBox(parent)
+        self.unit_types_combobox.setPlaceholderText("Choose a type of measurement unit")
+        self.unit_types_combobox.setFont(small_font)
         self.widget_layout.addWidget(self.unit_types_combobox, 0, 0, 1, 1)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -575,47 +647,45 @@ class UnitConverterUI(object):
 
         self.btn_convert = ProcButton(parent, "Convert")
         self.btn_convert.setFont(small_font)
+        self.btn_convert.setSizePolicy(btn_size_policy)
+        self.btn_convert.setMaximumSize(QSize(16777215, 100))
         self.widget_layout.addWidget(self.btn_convert, 2, 2, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
         self.widget_layout.addItem(self.horizontalSpacer_2, 1, 3, 1, 1)
 
-        self.first_unit_combobox = self.CustomComboBox(parent)
+        self.first_unit_combobox = CustomComboBox(parent)
         self.first_unit_combobox.setFont(small_font)
-        self.first_unit_combobox.setPlaceholderText("")
+        self.first_unit_combobox.setPlaceholderText("Choose a unit of measurement")
         self.widget_layout.addWidget(self.first_unit_combobox, 1, 0, 1, 1)
+        self.list_types_of_units()
 
         self.btn_switch = ProcButton(parent, "⇄")
         self.btn_switch.setFont(small_font)
+        self.btn_switch.setSizePolicy(btn_size_policy)
+        self.btn_switch.setMaximumSize(QSize(16777215, 100))
         self.widget_layout.addWidget(self.btn_switch, 1, 2, 1, 1)
 
-        self.second_unit_combobox = self.CustomComboBox(parent)
+        self.second_unit_combobox = CustomComboBox(parent)
         self.second_unit_combobox.setFont(small_font)
+        self.second_unit_combobox.setPlaceholderText("Choose a unit of measurement")
         self.widget_layout.addWidget(self.second_unit_combobox, 1, 4, 1, 1)
 
         self.first_unit_box = CustomTextArea(parent)
-        box_size_policy = QSizePolicy()
-        box_size_policy.setHeightForWidth(self.first_unit_box.sizePolicy().hasHeightForWidth())
+        box_size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # box_size_policy.setHeightForWidth(self.first_unit_box.sizePolicy().hasHeightForWidth())
         self.first_unit_box.setSizePolicy(box_size_policy)
-        self.first_unit_box.setMaximumSize(QSize(16777215, 100))
         self.first_unit_box.setFont(general_font)
         self.first_unit_box.setReadOnly(True)
         self.first_unit_box.set_placeholder_txt("Input the value here...")
         self.widget_layout.addWidget(self.first_unit_box, 2, 0, 1, 1)
 
         self.second_unit_box = CustomTextArea(parent)
-        box_size_policy = QSizePolicy()
-        box_size_policy.setHeightForWidth(self.second_unit_box.sizePolicy().hasHeightForWidth())
         self.second_unit_box.setSizePolicy(box_size_policy)
-        self.second_unit_box.setMaximumSize(QSize(16777215, 100))
         self.second_unit_box.setFont(general_font)
         self.second_unit_box.setReadOnly(True)
         self.second_unit_box.setDisabled(True)
         self.widget_layout.addWidget(self.second_unit_box, 2, 4, 1, 1)
-
-        self.btn_convert = ProcButton(parent, "Convert")
-        self.btn_convert.setFont(small_font)
-        self.widget_layout.addWidget(self.btn_convert, 2, 2, 1, 1)
 
         self.input_frame = QFrame(parent)
         self.input_frame.setObjectName(u"input_frame")
@@ -684,43 +754,204 @@ class UnitConverterUI(object):
         ac_del_size_policy.setHeightForWidth(self.btn_ac.sizePolicy().hasHeightForWidth())
         self.btn_ac.setSizePolicy(ac_del_size_policy)
         self.btn_ac.setFont(general_font)
-        self.input_layout.addWidget(self.btn_ac, 5, 3, 2, 1)
+        self.input_layout.addWidget(self.btn_ac, 4, 3, 2, 1)
 
         self.widget_layout.addWidget(self.input_frame, 3, 0, 1, 1)
 
+        self.units_list = {
+            "Length": (
+                'Centimeters', 
+                'Foot/Feet', 
+                'Inches', 
+                'Kilometers', 
+                'Meters ', 
+                'Micrometers',
+                'Miles', 
+                'Milimeters', 
+                'Nanometers',
+                'Yards'
+            ),
+            "Weight": (
+                "Carats",
+                "Grams",
+                "Kilograms",
+                "Metric tonnes",
+                "Ounces",
+                "Pounds",
+            ),
+            "Area": (
+                "Acres",
+                "Hectares",
+                "Square inches",
+                "Square feet",
+                "Square kilometers",
+                "Square meters",
+                "Square millimeters",
+                "Square miles",
+                "Square yards"
+            ),
+            "Volume": (
+                "Cubic inches",
+                "Cubic feets",
+                "Cubic meters",
+                "Cubic yards",
+                "Cups (US)",
+                "FLuid ounces (US)",
+                "Gallons (UK)",
+                "Gallons (US)",
+                "Liters",
+                "Milliliters",
+                "Pints (UK)",
+                "Pints (US)",
+                "Quarts (UK)",
+                "Quarts (US)",
+                "Teaspoons (UK)",
+                "Teaspoons (US)",
+                "Tablespoons (UK)",
+                "Tablespoons (US)",
+            ),
+            "Temperature": (
+                "Celsius",
+                "Fahrenheit",
+                "Kelvin",
+            ),
+            "Energy": (
+                "Ampere-hours",
+                "British thermal units",
+                "Calories",
+                "Electron volts",
+                "Foot-pounds",
+                "Joules",
+                "Kilocalories",
+                "Kilojoules",
+                "Kilowatt-hours",
+                "Megawatt-hours",
+                "Milliampere-hours",
+                "Therms",
+                "Watt-hours",
+            ),
+            "Time": (
+                "Days",
+                "Hours",
+                "Microseconds",
+                "Milliseconds",
+                "Minutes",
+                "Nanoseconds",
+                "Seconds",
+                "Weeks",
+                "Years",
+            ),
+            "Speed": (
+                "Feet per second",
+                "Inches per second",
+                "Kilometers per hour",
+                "Kilometers per second",
+                "Knots",
+                "Mach",
+                "Meters per second",
+                "Miles per hour",
+                "Miles per second",
+                "Speed of light",
+                "Speed of sound",
+                "Yards per second",
+                "Yards per hour",
+            ),
+            "Pressure": (
+                "Atmospheres",
+                "Bars",
+                "Dynes per square centimeter",
+                "Feet of mercury",
+                "Feet of water",
+                "Inches of mercury",
+                "Inches of water",
+                "Kilograms per square centimeter",
+                "Kilograms per square meter",
+                "Kilopascals",
+                "Kips per square inch",
+                "Megapascals",
+                "Millibars",
+                "Millimeters of mercury",
+                "Millimeters of water",
+                "Newtons per square meter",
+                "Pascals",
+                "Pounds per square foot",
+                "Pounds per square inch",
+                "Pounds per square inch (absolute)",
+                "Pounds per square inch (gauge)",
+                "Pounds per square inch (technical)",
+                "Pounds per square inch (water)",
+                "Torrs",
+            ),
+            "Data": (
+                "Bits",
+                "Bytes",
+                "Gigabits",
+                "Gigabytes",
+                "Kilobits",
+                "Kilobytes",
+                "Megabits",
+                "Megabytes",
+                "Petabits",
+                "Petabytes",
+                "Terabits",
+                "Terabytes",
+            ),
+            "Frequency": (
+                "Gigahertz",
+                "Hertz",
+                "Kilohertz",
+                "Megahertz",
+                "Terahertz",
+            ),
+            "Force": (
+                "Dynes",
+                "Kilograms-force",
+                "Kips",
+                "Kiloponds",
+                "Newtons",
+                "Pounds-force",
+                "Poundals",
+                "Tonnes-force",
+            ),
+            "Power": (
+                "Boilers horsepower",
+                "Electrical horsepower",
+                "Foot-pounds per minute",
+                "Foot-pounds per second",
+                "Gigawatts",
+                "Horsepower (boiler)",
+                "Horsepower (electric)",
+                "Horsepower (metric)",
+                "Horsepower (UK)",
+                "Horsepower (water)",
+                "Horsepower (US)",
+                "Kilowatts",
+                "Megawatts",
+                "Metric horsepower",
+                "Metric tons of TNT",
+                "Microwatts",
+                "Milliwatts",
+                "Nanowatts",
+                "Petawatts",
+                "Picojoules per second",
+                "Terawatts",
+                "Watts",
+            ),
+            "Angle": (
+                "Degrees",
+                "Gradians",
+                "Minutes",
+                "Radians",
+                "Seconds",
+            ),
+        }
 
-    class CustomComboBox(QComboBox):
-        def __init__(self, parent: QWidget):
-            super().__init__(parent)
-            self.format_box()
-
-        def format_box(self):
-            self.setStyleSheet(f"""
-                QComboBox {{
-                    border-radius: 10px;
-                    padding: 3px 3px 3px 3px;
-                    background: white;
-                }}
-                QComboBox::drop-down{{
-                	border: 0;
-                	border-radius: 10px;
-                	background: transparent;
-                }}
-                QComboBox QAbstractItemView {{
-                    background: white;
-                	border-bottom-right-radius: 10px;
-                    border-bottom-left-radius: 10px;
-                	selection-background-color: lightgray;
-                }}
-                QComboBox:on{{
-                	border-radius: 10px;
-                }}
-            """)
 
 class CalcUI(object):
     def setupUi(self, MainWindow: QMainWindow):
         self.menubar = MenuBar(MainWindow)
         MainWindow.setMenuBar(self.menubar)
+        MainWindow.setWindowIcon(QPixmap("icons/logo.png"))
         self.centralwidget = QWidget(MainWindow)
         vertical = QVBoxLayout(self.centralwidget)
 
@@ -729,19 +960,3 @@ class CalcUI(object):
         MainWindow.setCentralWidget(self.centralwidget)
         MainWindow.setStyleSheet(f"background-color: {WINDOW_BG}")
     
-
-
-# class TestWindow(QMainWindow, BasicCalcUI):
-#     def __init__(self):
-#         super().__init__()
-#         self.centralwidget = QWidget(self)
-#         self.setupUi(self.centralwidget)
-#         self.setCentralWidget(self.centralwidget)
-
-
-# import sys
-# from PySide6.QtWidgets import QApplication
-# app = QApplication()
-# main = TestWindow()
-# main.show()
-# sys.exit(app.exec())

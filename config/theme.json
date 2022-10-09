@@ -22,8 +22,8 @@
     "menu-bg-hover": "#a0ac7c",
     "menu-fg-hover": "#FFFFFF",
     "font": "",
-    "small-font-size": 12,
-    "general-font-size": 16,
+    "small-font-size": 14,
+    "general-font-size": 20,
     "calc-area-bg": "#FFFFFF",
     "calc-area-bg-disabled": "",
     "message-default-button-bg-normal": "#1E5128",
@@ -33,5 +33,6 @@
     "message-other-buttons-bg-normal": "#FFFFFF",
     "message-other-buttons-fg-normal": "#000000",
     "message-other-buttons-bg-hover": "#dddddd",
-    "message-other-buttons-fg-hover": "#FFFFFF"
+    "message-other-buttons-fg-hover": "#FFFFFF",
+    "icons-color": "#000000"
 }
