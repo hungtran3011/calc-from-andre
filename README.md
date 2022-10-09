@@ -41,6 +41,7 @@ This software is NOT tested on ARM chips yet so please help me optimize the soft
 - Use an ```ANS``` variable to store the results of calculations
 - Use several other variables for more complex calculations
 - **UPDATE 25/09/2022**: Complete the UI part for ```scientific``` mode
+- **UPDATE 09/10/2022**: '''Measurement''' converter is ready for testing!!!
 
 ## What I need to complete
 
@@ -49,7 +50,7 @@ This software is NOT tested on ARM chips yet so please help me optimize the soft
 - Symbols: use ```÷``` instead of ```/``` for division, ```×``` instead of ```*``` for times
 - Add square roots and n-roots of numbers
 - Add percentage calculation
-- **UPDATE 25/09/2022**: Complete ```scientific``` mode, complete for the ```unit converter``` and ```currency converter``` mode
+- **UPDATE 25/09/2022**: Complete ```scientific``` mode, complete the UI for the ```unit of measurement converter``` and ```currency converter``` mode
 
 Details can be seen at ```changelog.md```
 
