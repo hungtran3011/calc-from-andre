@@ -6,4 +6,3 @@ which are converted Python's operations and functions for evaluation.
 
 from math import pow, log, factorial, lcm, gcd, sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh
 from structures import Stack
-

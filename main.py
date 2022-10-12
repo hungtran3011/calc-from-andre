@@ -95,6 +95,7 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
         self.btn_ac.clicked.connect(self.ac) 
         self.btn_del.clicked.connect(self.del_calc)
         self.showing_ans = False
+        self.calc_area.setEnabled(False)
 
     def set_basic(self):
         self.MainWindow.setWindowTitle("Basic calculator")
@@ -192,10 +193,14 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
 
     def insert_chars(self, char: str):
         if self.showing_ans:
-            self.calc_area.clear()
             self.showing_ans = False
-            if "Error" not in self.calc_area.toPlainText() and char in ["+", "-", "*", "/"]:
-                self.calc_area.insertPlainText(f"ANS {char} ")
+            plain_text = ""
+            if "error" not in self.calc_area.toPlainText().lower() and char in ["+", "-", "*", "/"]:
+                plain_text = f"{ANS} {char}"
+            else:
+                plain_text = char
+            self.calc_area.clear()
+            self.calc_area.insertPlainText(plain_text)
         elif char in ["+", "-", "*", "/"]:
             self.calc_area.insertPlainText(f" {char} ")
         else:
@@ -210,9 +215,12 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
             self.calc_area.clear()
             self.calc_area.setPlainText(str(ANS))
             self.to_sto()
-        except SyntaxError or ZeroDivisionError:
+        except SyntaxError:
             self.calc_area.clear()
-            self.calc_area.setPlainText("Error")
+            self.calc_area.setPlainText("Syntax Error")
+        except ZeroDivisionError:
+            self.calc_area.clear()
+            self.calc_area.setPlainText("Divide by 0 error")
         finally:
             self.showing_ans = True
 
@@ -225,6 +233,10 @@ class BasicCalcWidget(BasicCalcUI, QWidget):
             self.calc_area.clear()
         else:
             text_cursor = self.calc_area.textCursor()
+            cursor_pos = text_cursor.position()
+            if (self.calc_area.toPlainText()[cursor_pos-1] == " "):
+                text_cursor.deletePreviousChar()
+                text_cursor.deletePreviousChar()
             text_cursor.deletePreviousChar()
     
     def reset_vars(self):
@@ -289,6 +301,7 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
         self.btn_ln.clicked.connect(partial(self.insert_chars, "ln("))
         self.btn_gcd.clicked.connect(partial(self.insert_chars, "gcd("))
         self.btn_lcm.clicked.connect(partial(self.insert_chars, "lcm("))
+        self.showing_ans = False
         
 
     def set_scientific(self):
@@ -320,6 +333,7 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
 
     def calc(self):
         self.to_sto()
+        self.showing_ans = True
 
     def to_sto(self):
         print(
@@ -384,8 +398,15 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
             self.to_sto()
 
     def insert_chars(self, char: str):
-        if "Error" in self.calc_area.toPlainText():
+        if self.showing_ans:
+            self.showing_ans = False
+            plain_text = ""
+            if "error" not in self.calc_area.toPlainText().lower() and char in ["+", "-", "*", "/"]:
+                plain_text = f"{ANS} {char}"
+            else:
+                plain_text = char
             self.calc_area.clear()
+            self.calc_area.insertPlainText(plain_text)
         elif char in ["+", "-", "*", "/"]:
             self.calc_area.insertPlainText(f" {char} ")
         else:
@@ -399,19 +420,24 @@ class ScientificCalcWidget(ScientificCalcUI, QWidget):
         message_box.show()
 
     def del_calc(self):
-        if "Error" in self.calc_area.toPlainText():
+        if self.showing_ans:
             self.calc_area.clear()
         else:
             text_cursor = self.calc_area.textCursor()
+            cursor_pos = text_cursor.position()
+            if (self.calc_area.toPlainText()[cursor_pos-1] == " "):
+                text_cursor.deletePreviousChar()
+                text_cursor.deletePreviousChar()
             text_cursor.deletePreviousChar()
 
     def ac(self):
         self.calc_area.clear()
+        self.showing_ans = False
 
 class Converter:
     def __init__(self, input_value, unit_type, input_unit, output_unit) -> None:
         self.AREA = "Area"
-        self.ENERGY = "Energy"
+        self.ENERGY = "Energy" 
         self.LENGTH = "Length"
         self.TEMPERATURE = "Temperature"
         self.VOLUME = "Volume"
@@ -423,6 +449,7 @@ class Converter:
         self.ANGLE = "Angle"
         self.DATA = "Data"
         self.FORCE = "Force"
+        self.FREQUENCY = "Frequency"
         self.input_value = input_value
         self.unit_type = unit_type
         self.input_unit = input_unit
@@ -442,6 +469,7 @@ class Converter:
             case self.ANGLE: self.output_value = self.convert_angle()
             case self.DATA: self.output_value = self.convert_data()
             case self.FORCE: self.output_value = self.convert_force()
+            case self.FREQUENCY: self.output_value = self.convert_frequency()
         
 
     def get_result(self):
@@ -656,6 +684,7 @@ class Converter:
                     "Kilojoules": input_value * 1000,
                     "Kilocalories": input_value * 4184,
                     "Kilowatt-hours": input_value * 3600000,
+                    "Kips": input_value * 4448.22,
                     "Megawatt-hours": input_value * 3600000000,
                     "Milliamperes-hours": input_value / 3.6,
                     "Electron volts": input_value * 1.60218e-19,
@@ -679,6 +708,7 @@ class Converter:
                     "Kilojoules": value_in_joules / 1000,
                     "Kilocalories": value_in_joules / 4184,
                     "Kilowatt-hours": value_in_joules / 3600000,
+                    "Kips": value_in_joules / 4448.22,
                     "Megawatt-hours": value_in_joules / 3600000000,
                     "Milliamperes-hours": value_in_joules * 3.6,
                     "Therms (EC)": value_in_joules / 105505600,
@@ -1019,6 +1049,37 @@ class Converter:
 
         return to_all(self.input_value, self.input_unit, self.output_unit)
 
+    def convert_frequency(self):
+        def to_hertz(input_value, input_unit):
+            try:
+                all_results = {
+                    "Gigahertz": input_value * 10**9,
+                    "Hertz": input_value,
+                    "Kilohertz": input_value * 10**3,
+                    "Megahertz": input_value * 10**6,
+                    "Petahertz": input_value * 10**15,
+                    "Terahertz": input_value * 10**12,
+                }
+                return all_results[input_unit]
+            except TypeError:
+                return 0
+        
+        def to_all(input_value, input_unit, output_unit):
+            try:
+                value_in_hertz = to_hertz(input_value, input_unit)
+                all_results = {
+                    "Gigahertz": value_in_hertz / 10**9,
+                    "Hertz": value_in_hertz,
+                    "Kilohertz": value_in_hertz / 10**3,
+                    "Megahertz": value_in_hertz / 10**6,
+                    "Petahertz": value_in_hertz / 10**15,
+                    "Terahertz": value_in_hertz / 10**12,
+                }
+                return all_results[output_unit]
+            except TypeError:
+                return 0
+
+        return to_all(self.input_value, self.input_unit, self.output_unit)
 
 class MeasureConverterWidget(MeasurementConverterUI, QWidget):
     def __init__(self, MainWindow: QMainWindow) -> None:

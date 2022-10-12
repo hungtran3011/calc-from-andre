@@ -53,6 +53,7 @@ FUNC_BUTTON_FG_NORMAL = THEME["func-button-fg-normal"]
 FUNC_BUTTON_BG_HOVER = THEME["func-button-bg-hover"]
 FUNC_BUTTON_FG_HOVER = THEME["func-button-fg-hover"]
 CALC_AREA_BG = THEME["calc-area-bg"]
+CALC_AREA_FG = THEME["calc-area-fg"]
 FONT_FAMILY = THEME["font-family"]
 SMALL_FONT_SIZE = THEME["small-font-size"]
 GENERAL_FONT_SIZE = THEME["general-font-size"]
@@ -389,6 +390,7 @@ class CustomTextArea(QPlainTextEdit):
         self.setStyleSheet(f"""
             border-radius: 10px;
             background-color: {CALC_AREA_BG};
+            color: {CALC_AREA_FG};
         """)
         shadow = QGraphicsDropShadowEffect(parent, blurRadius=10, xOffset=0, yOffset=0)
         self.setGraphicsEffect(shadow)
@@ -1026,15 +1028,9 @@ class AboutDialogUI(QDialog):
         vertical_layout.addWidget(dialog_author)
 
         dialog_license = QLabel(Dialog)
-        dialog_license.setText("License: GNU General Public License v3.0")
+        dialog_license.setText("This software is published under GNU General Public License v3.0")
         dialog_license.setFont(small_font)
         vertical_layout.addWidget(dialog_license)
-
-        dialog_license_link = QLabel(Dialog)
-        dialog_license_link.setText("""License link: <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">here</a>""")
-        dialog_license_link.setOpenExternalLinks(True)
-        dialog_license_link.setFont(small_font)
-        vertical_layout.addWidget(dialog_license_link)
 
 
         
