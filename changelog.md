@@ -1,3 +1,10 @@
+**12/10/2022**
+Bugs fixed:
+- Unexpected frame border when running on KDE Plasma
+- Voice typing, i.e new Voice access feature for Windows 11 (ver 22H2), can insert unwanted texts to the '''QPlainTextEdit''' 
+when keyboard input is disabled (by disabling the text edit 😀)
+
+
 **09/10/2022**
 - '''Measurement''' converter is ready for testing!!!
 
